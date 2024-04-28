@@ -3108,7 +3108,7 @@ static int __init it87_find(int sioaddr, unsigned short *address,
 	char mmio_str[32];
 	u16 chip_type;
 	int err;
-	bool opened = false;
+	bool enabled = false;
 
 	/* First step, lock memory but don't enter configuration mode */
 	err = superio_enter(sioaddr, true);
@@ -3123,7 +3123,7 @@ static int __init it87_find(int sioaddr, unsigned short *address,
 	if (chip_type == 0xffff) {
 		/* Enter configuration mode */
 		__superio_enter(sioaddr);
-		opened = true;
+		enabled = true;
 		/* and then try again */
 		chip_type = superio_inw(sioaddr, DEVID);
 		if (chip_type == 0xffff)
@@ -3252,9 +3252,9 @@ static int __init it87_find(int sioaddr, unsigned short *address,
 	 *
 	 * I don't know if any such chips can exist but be defensive.
 	 */
-	if (!opened && !has_noconf(config)) {
+	if (!enabled && !has_noconf(config)) {
 		__superio_enter(sioaddr);
-		opened = true;
+		enabled = true;
 	}
 
 	superio_select(sioaddr, PME);
@@ -3796,7 +3796,7 @@ static int __init it87_find(int sioaddr, unsigned short *address,
 	}
 
 exit:
-	superio_exit(sioaddr, opened && config && has_noconf(config));
+	superio_exit(sioaddr, !enabled);
 	return err;
 }
 
