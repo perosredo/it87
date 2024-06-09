@@ -4499,6 +4499,9 @@ static const struct dmi_system_id it87_dmi_table[] __initconst = {
 	IT87_DMI_MATCH_GBT("Z390 AORUS ULTRA-CF", it87_dmi_cb,
 			   &it87_acpi_ignore),
 		/* IT8688E + IT8792E/IT8795E */
+	IT87_DMI_MATCH_GBT("B450 AORUS PRO-CF", it87_dmi_cb,
+			   &it87_acpi_ignore),
+		/* IT8686E + IT8792E/IT8795E */
 	IT87_DMI_MATCH_GBT("Z490 AORUS ELITE AC", it87_dmi_cb,
 			   &it87_acpi_ignore),
 		/* IT8688E */
