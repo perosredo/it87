@@ -4636,8 +4636,8 @@ static void __exit sm_it87_exit(void)
 	platform_driver_unregister(&it87_driver);
 }
 
-MODULE_AUTHOR("Chris Gauthron, Jean Delvare <jdelvare@suse.de>");
-MODULE_DESCRIPTION("IT8705F/IT871xF/IT872xF hardware monitoring driver");
+MODULE_AUTHOR("Chris Gauthron, Jean Delvare <jdelvare@suse.de>, Frank Crawford");
+MODULE_DESCRIPTION("IT87xxF/IT86xxE hardware monitoring driver");
 
 module_param_array(force_id, ushort, &force_id_cnt, 0);
 MODULE_PARM_DESC(force_id, "Override one or more detected device ID(s)");
