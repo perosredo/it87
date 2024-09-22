@@ -4547,10 +4547,19 @@ static const struct dmi_system_id it87_dmi_table[] __initconst = {
 	IT87_DMI_MATCH_GBT("H610M H DDR4", it87_dmi_cb,
 			   &it87_acpi_ignore),
 		/* IT8689E */
+	IT87_DMI_MATCH_GBT("H610M S2H V2", it87_dmi_cb,
+			   &it87_acpi_ignore),
+		/* IT8689E */
 	IT87_DMI_MATCH_GBT("Z690 AORUS PRO DDR4", it87_dmi_cb,
 			   &it87_acpi_ignore),
 		/* IT8689E + IT87952E */
 	IT87_DMI_MATCH_GBT("Z690 AORUS PRO", it87_dmi_cb,
+			   &it87_acpi_ignore),
+		/* IT8689E + IT87952E */
+	IT87_DMI_MATCH_GBT("Z790 AORUS ELITE AX", it87_dmi_cb,
+			   &it87_acpi_ignore),
+		/* IT8689E + IT87952E */
+	IT87_DMI_MATCH_GBT("Z790 AORUS MASTER", it87_dmi_cb,
 			   &it87_acpi_ignore),
 		/* IT8689E + IT87952E */
 	IT87_DMI_MATCH_VND("nVIDIA", "FN68PT", it87_dmi_cb, &nvidia_fn68pt),
