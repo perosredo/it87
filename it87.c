@@ -82,7 +82,7 @@ enum chips { it87, it8712, it8716, it8718, it8720, it8721, it8728, it8732,
 	     it8736, it8738,
 	     it8771, it8772, it8781, it8782, it8783, it8786, it8790,
 	     it8792, it8603, it8606, it8607, it8613, it8620, it8622, it8625,
-	     it8628, it8655, it8665, it8686, it8688, it8689, it87952 };
+	     it8628, it8655, it8665, it8686, it8688, it8689, it87952, it8696 };
 
 static struct platform_device *it87_pdev[2];
 
@@ -190,6 +190,7 @@ static inline void superio_exit(int ioreg, bool noexit)
 #define IT8688E_DEVID 0x8688
 #define IT8689E_DEVID 0x8689
 #define IT87952E_DEVID 0x8695
+#define IT8696E_DEVID 0x8696
 
 /* Logical device 4 (Environmental Monitor) registers */
 #define IT87_ACT_REG  0x30
@@ -365,11 +366,11 @@ struct it87_devices {
 #define FEAT_TEMP_OLD_PECI	BIT(6)
 #define FEAT_FAN16_CONFIG	BIT(7)	/* Need to enable 16-bit fans */
 #define FEAT_FIVE_FANS		BIT(8)	/* Supports five fans */
-#define FEAT_VID		BIT(9)	/* Set if chip supports VID */
+#define FEAT_VID			BIT(9)	/* Set if chip supports VID */
 #define FEAT_IN7_INTERNAL	BIT(10)	/* Set if in7 is internal */
 #define FEAT_SIX_FANS		BIT(11)	/* Supports six fans */
 #define FEAT_10_9MV_ADC		BIT(12)
-#define FEAT_AVCC3		BIT(13)	/* Chip supports in9/AVCC3 */
+#define FEAT_AVCC3			BIT(13)	/* Chip supports in9/AVCC3 */
 #define FEAT_FIVE_PWM		BIT(14)	/* Chip supports 5 pwm chn */
 #define FEAT_SIX_PWM		BIT(15)	/* Chip supports 6 pwm chn */
 #define FEAT_PWM_FREQ2		BIT(16)	/* Separate pwm freq 2 */
@@ -381,7 +382,7 @@ struct it87_devices {
  * second SIO address. Never exit configuration mode on these
  * chips to avoid the problem.
  */
-#define FEAT_NOCONF		BIT(19)	/* Chip conf mode enabled on startup */
+#define FEAT_NOCONF			BIT(19)	/* Chip conf mode enabled on startup */
 #define FEAT_FOUR_FANS		BIT(20)	/* Supports four fans */
 #define FEAT_FOUR_PWM		BIT(21)	/* Supports four fan controls */
 #define FEAT_FOUR_TEMP		BIT(22)
@@ -389,7 +390,7 @@ struct it87_devices {
 #define FEAT_NEW_TEMPMAP	BIT(24)	/* new temp input selection */
 #define FEAT_BANK_SEL		BIT(25)	/* Chip has multi-bank support */
 #define FEAT_11MV_ADC		BIT(26)
-#define FEAT_MMIO		BIT(27)	/* Chip supports MMIO */
+#define FEAT_MMIO			BIT(27)	/* Chip supports MMIO */
 
 static const struct it87_devices it87_devices[] = {
 	[it87] = {
@@ -772,6 +773,18 @@ static const struct it87_devices it87_devices[] = {
 		.num_temp_offset = 3,
 		.num_temp_map = 3,
 		.peci_mask = 0x07,
+	},
+		[it8696] = {
+		.name = "it8696",
+		.model = "IT8696E",
+		.features = FEAT_NEWER_AUTOPWM | FEAT_12MV_ADC | FEAT_16BIT_FANS
+		  | FEAT_FIVE_FANS | FEAT_NEW_TEMPMAP
+		  | FEAT_IN7_INTERNAL | FEAT_FIVE_PWM | FEAT_PWM_FREQ2
+		  | FEAT_SIX_TEMP | FEAT_BANK_SEL | FEAT_AVCC3,
+		.num_temp_limit = 6,
+		.num_temp_offset = 6,
+		.num_temp_map = 7,
+		.smbus_bitmap = BIT(1) | BIT(2),
 	},
 };
 
@@ -3236,6 +3249,9 @@ static int __init it87_find(int sioaddr, unsigned short *address,
 	case IT87952E_DEVID:
 		sio_data->type = it87952;
 		break;
+	case IT8696E_DEVID:
+		sio_data->type = it8696;
+		break;
 	case 0xffff:	/* No device at all */
 		goto exit;
 	default:
@@ -3810,6 +3826,7 @@ static void it87_init_regs(struct platform_device *pdev)
 	case it8686:
 	case it8688:
 	case it8689:
+	case it8696:
 		data->REG_FAN = IT87_REG_FAN;
 		data->REG_FANX = IT87_REG_FANX;
 		data->REG_FAN_MIN = IT87_REG_FAN_MIN;
@@ -4563,6 +4580,8 @@ static const struct dmi_system_id it87_dmi_table[] __initconst = {
 			   &it87_acpi_ignore),
 		/* IT8689E + IT87952E */
 	IT87_DMI_MATCH_VND("nVIDIA", "FN68PT", it87_dmi_cb, &nvidia_fn68pt),
+		/* IT8696E */
+	IT87_DMI_MATCH_GBT("X870I AORUS PRO ICE", it87_dmi_cb, &it87_acpi_ignore),
 	{ }
 };
 MODULE_DEVICE_TABLE(dmi, it87_dmi_table);
