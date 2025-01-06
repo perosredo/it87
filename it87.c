@@ -4582,6 +4582,8 @@ static const struct dmi_system_id it87_dmi_table[] __initconst = {
 	IT87_DMI_MATCH_VND("nVIDIA", "FN68PT", it87_dmi_cb, &nvidia_fn68pt),
 		/* IT8696E */
 	IT87_DMI_MATCH_GBT("X870I AORUS PRO ICE", it87_dmi_cb, &it87_acpi_ignore),
+		/* IT87952E + IT8696E*/
+	IT87_DMI_MATCH_GBT("X870 AORUS ELITE WIFI7", it87_dmi_cb, &it87_acpi_ignore),
 	{ }
 };
 MODULE_DEVICE_TABLE(dmi, it87_dmi_table);
