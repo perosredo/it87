@@ -366,11 +366,11 @@ struct it87_devices {
 #define FEAT_TEMP_OLD_PECI	BIT(6)
 #define FEAT_FAN16_CONFIG	BIT(7)	/* Need to enable 16-bit fans */
 #define FEAT_FIVE_FANS		BIT(8)	/* Supports five fans */
-#define FEAT_VID			BIT(9)	/* Set if chip supports VID */
+#define FEAT_VID		BIT(9)	/* Set if chip supports VID */
 #define FEAT_IN7_INTERNAL	BIT(10)	/* Set if in7 is internal */
 #define FEAT_SIX_FANS		BIT(11)	/* Supports six fans */
 #define FEAT_10_9MV_ADC		BIT(12)
-#define FEAT_AVCC3			BIT(13)	/* Chip supports in9/AVCC3 */
+#define FEAT_AVCC3		BIT(13)	/* Chip supports in9/AVCC3 */
 #define FEAT_FIVE_PWM		BIT(14)	/* Chip supports 5 pwm chn */
 #define FEAT_SIX_PWM		BIT(15)	/* Chip supports 6 pwm chn */
 #define FEAT_PWM_FREQ2		BIT(16)	/* Separate pwm freq 2 */
@@ -382,7 +382,7 @@ struct it87_devices {
  * second SIO address. Never exit configuration mode on these
  * chips to avoid the problem.
  */
-#define FEAT_NOCONF			BIT(19)	/* Chip conf mode enabled on startup */
+#define FEAT_NOCONF		BIT(19)	/* Chip conf mode enabled on startup */
 #define FEAT_FOUR_FANS		BIT(20)	/* Supports four fans */
 #define FEAT_FOUR_PWM		BIT(21)	/* Supports four fan controls */
 #define FEAT_FOUR_TEMP		BIT(22)
@@ -390,7 +390,7 @@ struct it87_devices {
 #define FEAT_NEW_TEMPMAP	BIT(24)	/* new temp input selection */
 #define FEAT_BANK_SEL		BIT(25)	/* Chip has multi-bank support */
 #define FEAT_11MV_ADC		BIT(26)
-#define FEAT_MMIO			BIT(27)	/* Chip supports MMIO */
+#define FEAT_MMIO		BIT(27)	/* Chip supports MMIO */
 
 static const struct it87_devices it87_devices[] = {
 	[it87] = {
