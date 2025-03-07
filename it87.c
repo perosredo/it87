@@ -778,8 +778,8 @@ static const struct it87_devices it87_devices[] = {
 		.name = "it8696",
 		.model = "IT8696E",
 		.features = FEAT_NEWER_AUTOPWM | FEAT_12MV_ADC | FEAT_16BIT_FANS
-		  | FEAT_FIVE_FANS | FEAT_NEW_TEMPMAP
-		  | FEAT_IN7_INTERNAL | FEAT_FIVE_PWM | FEAT_PWM_FREQ2
+		  | FEAT_SIX_FANS | FEAT_NEW_TEMPMAP
+		  | FEAT_IN7_INTERNAL | FEAT_SIX_PWM | FEAT_PWM_FREQ2
 		  | FEAT_SIX_TEMP | FEAT_BANK_SEL | FEAT_AVCC3,
 		.num_temp_limit = 6,
 		.num_temp_offset = 6,
@@ -4034,6 +4034,7 @@ static void it87_init_device(struct platform_device *pdev)
 		case it8686:
 		case it8688:
 		case it8689:
+		case it8696:
 			if (tmp & BIT(2))
 				data->has_fan |= BIT(5); /* fan6 enabled */
 			break;
@@ -4058,6 +4059,7 @@ static void it87_init_device(struct platform_device *pdev)
 		case it8686:
 		case it8688:
 		case it8689:
+		case it8696:
 			tmp = data->read(data, IT87_REG_FAN_DIV);
 			if (!(tmp & BIT(3)))
 				sio_data->skip_pwm |= BIT(5);
@@ -4584,6 +4586,8 @@ static const struct dmi_system_id it87_dmi_table[] __initconst = {
 	IT87_DMI_MATCH_GBT("X870I AORUS PRO ICE", it87_dmi_cb, &it87_acpi_ignore),
 		/* IT87952E + IT8696E*/
 	IT87_DMI_MATCH_GBT("X870 AORUS ELITE WIFI7", it87_dmi_cb, &it87_acpi_ignore),
+		/* IT8696E*/
+	IT87_DMI_MATCH_GBT("X870 GAMING WIFI6", it87_dmi_cb, &it87_acpi_ignore),
 	{ }
 };
 MODULE_DEVICE_TABLE(dmi, it87_dmi_table);
