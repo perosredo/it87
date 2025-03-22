@@ -83,7 +83,7 @@ enum chips { it87, it8712, it8716, it8718, it8720, it8721, it8728, it8732,
 	     it8736, it8738,
 	     it8771, it8772, it8781, it8782, it8783, it8785, it8786, it8790,
 	     it8792, it8603, it8606, it8607, it8613, it8620, it8622, it8625,
-	     it8628, it8655, it8665, it8686, it8688, it8689, it87952 };
+	     it8628, it8655, it8665, it8686, it8688, it8689, it87952, it8696 };
 
 static struct platform_device *it87_pdev[2];
 
@@ -192,6 +192,7 @@ static inline void superio_exit(int ioreg, bool noexit)
 #define IT8688E_DEVID 0x8688
 #define IT8689E_DEVID 0x8689
 #define IT87952E_DEVID 0x8695
+#define IT8696E_DEVID 0x8696
 
 /* Logical device 4 (Environmental Monitor) registers */
 #define IT87_ACT_REG  0x30
@@ -785,6 +786,18 @@ static const struct it87_devices it87_devices[] = {
 		.num_temp_offset = 3,
 		.num_temp_map = 3,
 		.peci_mask = 0x07,
+	},
+		[it8696] = {
+		.name = "it8696",
+		.model = "IT8696E",
+		.features = FEAT_NEWER_AUTOPWM | FEAT_12MV_ADC | FEAT_16BIT_FANS
+		  | FEAT_SIX_FANS | FEAT_NEW_TEMPMAP
+		  | FEAT_IN7_INTERNAL | FEAT_SIX_PWM | FEAT_PWM_FREQ2
+		  | FEAT_SIX_TEMP | FEAT_BANK_SEL | FEAT_AVCC3,
+		.num_temp_limit = 6,
+		.num_temp_offset = 6,
+		.num_temp_map = 7,
+		.smbus_bitmap = BIT(1) | BIT(2),
 	},
 };
 
@@ -3252,6 +3265,9 @@ static int __init it87_find(int sioaddr, unsigned short *address,
 	case IT87952E_DEVID:
 		sio_data->type = it87952;
 		break;
+	case IT8696E_DEVID:
+		sio_data->type = it8696;
+		break;
 	case 0xffff:	/* No device at all */
 		goto exit;
 	default:
@@ -3829,6 +3845,7 @@ static void it87_init_regs(struct platform_device *pdev)
 	case it8686:
 	case it8688:
 	case it8689:
+	case it8696:
 		data->REG_FAN = IT87_REG_FAN;
 		data->REG_FANX = IT87_REG_FANX;
 		data->REG_FAN_MIN = IT87_REG_FAN_MIN;
@@ -4036,6 +4053,7 @@ static void it87_init_device(struct platform_device *pdev)
 		case it8686:
 		case it8688:
 		case it8689:
+		case it8696:
 			if (tmp & BIT(2))
 				data->has_fan |= BIT(5); /* fan6 enabled */
 			break;
@@ -4060,6 +4078,7 @@ static void it87_init_device(struct platform_device *pdev)
 		case it8686:
 		case it8688:
 		case it8689:
+		case it8696:
 			tmp = data->read(data, IT87_REG_FAN_DIV);
 			if (!(tmp & BIT(3)))
 				sio_data->skip_pwm |= BIT(5);
@@ -4582,6 +4601,12 @@ static const struct dmi_system_id it87_dmi_table[] __initconst = {
 			   &it87_acpi_ignore),
 		/* IT8689E + IT87952E */
 	IT87_DMI_MATCH_VND("nVIDIA", "FN68PT", it87_dmi_cb, &nvidia_fn68pt),
+		/* IT8696E */
+	IT87_DMI_MATCH_GBT("X870I AORUS PRO ICE", it87_dmi_cb, &it87_acpi_ignore),
+		/* IT87952E + IT8696E*/
+	IT87_DMI_MATCH_GBT("X870 AORUS ELITE WIFI7", it87_dmi_cb, &it87_acpi_ignore),
+		/* IT8696E*/
+	IT87_DMI_MATCH_GBT("X870 GAMING WIFI6", it87_dmi_cb, &it87_acpi_ignore),
 	{ }
 };
 MODULE_DEVICE_TABLE(dmi, it87_dmi_table);
