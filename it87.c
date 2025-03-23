@@ -4529,6 +4529,9 @@ static const struct dmi_system_id it87_dmi_table[] __initconst = {
 		/* ? + IT8792E/IT8795E */
 	IT87_DMI_MATCH_GBT("AX370", it87_dmi_cb, NULL),
 		/* ? + IT8792E/IT8795E */
+	IT87_DMI_MATCH_GBT("Q370M D3H GSM PLUS", it87_dmi_cb,
+			   &it87_acpi_ignore),
+		/* IT8686E */
 	IT87_DMI_MATCH_GBT("A520I AC", it87_dmi_cb,
 			   &it87_acpi_ignore),
 		/* IT8688E */
