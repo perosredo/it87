@@ -4540,6 +4540,9 @@ static const struct dmi_system_id it87_dmi_table[] __initconst = {
 	IT87_DMI_MATCH_GBT("Z390 AORUS ULTRA-CF", it87_dmi_cb,
 			   &it87_acpi_ignore),
 		/* IT8688E + IT8792E/IT8795E */
+	IT87_DMI_MATCH_GBT("X399 DESIGNARE EX-CF", it87_dmi_cb,
+			   &it87_acpi_ignore),
+		/* IT8686E + IT8792E/IT8795E */
 	IT87_DMI_MATCH_GBT("B450 AORUS PRO-CF", it87_dmi_cb,
 			   &it87_acpi_ignore),
 		/* IT8686E + IT8792E/IT8795E */
@@ -4603,13 +4606,15 @@ static const struct dmi_system_id it87_dmi_table[] __initconst = {
 	IT87_DMI_MATCH_GBT("Z790 AORUS MASTER", it87_dmi_cb,
 			   &it87_acpi_ignore),
 		/* IT8689E + IT87952E */
-	IT87_DMI_MATCH_VND("nVIDIA", "FN68PT", it87_dmi_cb, &nvidia_fn68pt),
-		/* IT8696E */
 	IT87_DMI_MATCH_GBT("X870I AORUS PRO ICE", it87_dmi_cb, &it87_acpi_ignore),
-		/* IT87952E + IT8696E*/
+		/* IT8696E */
 	IT87_DMI_MATCH_GBT("X870 AORUS ELITE WIFI7", it87_dmi_cb, &it87_acpi_ignore),
+		/* IT87952E + IT8696E*/
+	IT87_DMI_MATCH_GBT("X870 AORUS ELITE WIFI7 ICE", it87_dmi_cb, &it87_acpi_ignore),
 		/* IT8696E*/
 	IT87_DMI_MATCH_GBT("X870 GAMING WIFI6", it87_dmi_cb, &it87_acpi_ignore),
+		/* IT8696E*/
+	IT87_DMI_MATCH_VND("nVIDIA", "FN68PT", it87_dmi_cb, &nvidia_fn68pt),
 	{ }
 };
 MODULE_DEVICE_TABLE(dmi, it87_dmi_table);
